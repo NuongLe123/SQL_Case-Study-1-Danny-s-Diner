@@ -10,7 +10,8 @@ Danny wants to use the data to answer a few simple questions about his customers
 <img width="638" alt="Screenshot_4" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/b34f401f-e5e6-4c84-ad7b-433636e985fc">
 
 ## Question and Solution
-I have write the queries utilizing Google Bigquery. For more details about the results of the queries, please follow the link: https://console.cloud.google.com/bigquery?sq=277003598955:76d34ad508dc46188d48b81e4f65116e
+I have write the queries utilizing Google Bigquery. For more details about the results of the queries, please follow the link: 
+https://console.cloud.google.com/bigquery?sq=277003598955:281e0c4d5c2c4060bd019a93f40852fc
 
 ### 1. What is the total amount each customer spent at the restaurant?
 <img width="387" alt="Screenshot_5" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/085c0e8a-5f24-4526-a56a-130f1cdb5cd9">

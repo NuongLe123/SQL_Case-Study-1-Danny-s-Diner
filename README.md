@@ -34,6 +34,7 @@ I have write the queries utilizing Google Bigquery. For more details about the r
 To determine the unique number of visits for each customer, utilize **COUNT(DISTINCT order_date)**.
 It's important to **apply the DISTINCT** keyword while calculating the visit count to avoid duplicate counting of days. For instance, if Customer A visited the restaurant twice on '2021–01–07', counting **without DISTINCT** would result in 2 days instead of the accurate count of 1 day.
 ### Result:
+<img width="352" alt="Screenshot_18" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/8a34e1b0-6c62-4d09-b3d4-52b59b891604">
 
 - Customer A visited 4 times.
 - Customer B visited 6 times.
@@ -48,6 +49,8 @@ It's important to **apply the DISTINCT** keyword while calculating the visit cou
 - Use the GROUP BY clause to group the result by customer_id and product_name.
 
 ### Result:
+<img width="468" alt="Screenshot_19" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/30bfcbb1-9fe2-430a-9d40-19430b44a8b1">
+
 - Customer A placed an order for both curry and sushi simultaneously, making them the first items in the order.
 - Customer B's first order is curry.
 - Customer C's first order is ramen.
@@ -59,6 +62,7 @@ It's important to **apply the DISTINCT** keyword while calculating the visit cou
 - Perform a **COUNT** aggregation on the product_id column and **ORDER BY** the result in descending order using most_purchased field.
 - Apply the **LIMIT** 1 clause to filter and retrieve the highest number of purchased items.
 ### Result:
+<img width="376" alt="Screenshot_26" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/22eea6cf-c31b-4277-aa5e-05099ac7aebc">
 
 Most purchased item on the menu is ramen which is 8 times. Yummy!
 
@@ -71,6 +75,8 @@ Most purchased item on the menu is ramen which is 8 times. Yummy!
 - Utilize the **DENSE_RANK()** window function to calculate the ranking of each sales.customer_id partition based on the count of orders **COUNT(sales.customer_id)** in descending order.
 - In the outer query, select the appropriate columns and apply a filter in the **WHERE** clause to retrieve only the rows where the rank column equals 1, representing the rows with the highest order count for each customer.
 ### Result:
+<img width="619" alt="Screenshot_20" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/e81d5ce3-6a17-4f69-8ae1-39cfb082c739">
+
 - Customer A and C's favourite item is ramen.
 - Customer B enjoys all items on the menu. 
 
@@ -84,6 +90,8 @@ Most purchased item on the menu is ramen which is 8 times. Yummy!
 - In the **WHERE** clause, filter to retrieve only the rows where the row_num column equals 1, representing the first row within each customer_id partition.
 Order result by customer_id in ascending order.
 ### Result:
+<img width="500" alt="Screenshot_21" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/754d5c37-d252-4121-bd0d-423975aa44db">
+
 - Customer A's first order as a member is ramen.
 - Customer B's first order as a member is sushi.
 
@@ -98,6 +106,7 @@ Order result by customer_id in ascending order.
 - Filter the result set to include only the rows where the rank is 1, representing the earliest purchase made by each customer before they became a member.
 - Sort the result by customer_id in ascending order.
 ### Result:
+<img width="594" alt="Screenshot_22" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/ce9efd17-5f56-499e-92e2-edb9375b7941">
 
 Both customers' last order before becoming members are sushi.
 
@@ -111,6 +120,8 @@ Both customers' last order before becoming members are sushi.
 - Group the results by sales.customer_id.
 - Order the result by sales.customer_id in ascending order.
 ### Result:
+<img width="442" alt="Screenshot_23" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/40bc7220-6475-4a86-b695-9acb2bc48573">
+
 Before becoming members,
 - Customer A spent $25 on 2 items.
 - Customer B spent $40 on 3 items.
@@ -126,6 +137,8 @@ Let's break down the question to understand the point calculation for each custo
 - Otherwise, multiply $1 by 10 points.
 - Then, calculate the total points for each customer.
 ### Result:
+<img width="319" alt="Screenshot_24" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/4a1c9ca5-48f7-4f39-a0e5-03ae13ef8ac6">
+
 - Total points for Customer A is $860.
 - Total points for Customer B is $940.
 - Total points for Customer C is $360.
@@ -147,16 +160,11 @@ From Day 8 to the last day of January 2021, each $1 spent earns 10 points. Howev
 - If the product_name is 'sushi', multiply the price by 2 and then by 10. For orders placed between join_date and valid_date, also multiply the price by 2 and then by 10.
 For all other products, multiply the price by 10.
 - Calculate the sum of points for each customer.
+### Result:
+<img width="311" alt="Screenshot_25" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/1da3c17d-d31d-43e7-ad93-4656ab9fab3f">
+
 
   
-<img width="352" alt="Screenshot_18" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/8a34e1b0-6c62-4d09-b3d4-52b59b891604">
-<img width="468" alt="Screenshot_19" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/30bfcbb1-9fe2-430a-9d40-19430b44a8b1">
-<img width="619" alt="Screenshot_20" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/e81d5ce3-6a17-4f69-8ae1-39cfb082c739">
-<img width="500" alt="Screenshot_21" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/754d5c37-d252-4121-bd0d-423975aa44db">
-<img width="594" alt="Screenshot_22" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/ce9efd17-5f56-499e-92e2-edb9375b7941">
-<img width="442" alt="Screenshot_23" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/40bc7220-6475-4a86-b695-9acb2bc48573">
-<img width="319" alt="Screenshot_24" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/4a1c9ca5-48f7-4f39-a0e5-03ae13ef8ac6">
-<img width="311" alt="Screenshot_25" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/1da3c17d-d31d-43e7-ad93-4656ab9fab3f">
 
 ### Result:
 - Total points for Customer A is 1,020.

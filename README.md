@@ -18,7 +18,7 @@ https://console.cloud.google.com/bigquery?sq=277003598955:281e0c4d5c2c4060bd019a
 <img width="773" alt="Screenshot_6" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/a5672183-20b8-48e3-a482-7136a192f4c8">
 
 ### Steps:
-- Use **JOIN** to merge dannys_diner.sales and dannys_diner.menu tables as sales.customer_id and menu.price are from both tables.
+- Use **JOIN** to merge sales and menu tables as sales.customer_id and menu.price are from both tables.
 - Use **SUM** to calculate the total sales contributed by each customer.
 - Group the aggregated results by sales.customer_id.
 ### Result:
@@ -32,8 +32,8 @@ https://console.cloud.google.com/bigquery?sq=277003598955:281e0c4d5c2c4060bd019a
 <img width="371" alt="Screenshot_8" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/a09f0305-c1cd-4d03-aa86-ea0ccfbba4c3">
 
 ### Steps:
-To determine the unique number of visits for each customer, utilize **COUNT(DISTINCT order_date)**.
-It's important to **apply the DISTINCT** keyword while calculating the visit count to avoid duplicate counting of days. For instance, if Customer A visited the restaurant twice on '2021–01–07', counting **without DISTINCT** would result in 2 days instead of the accurate count of 1 day.
+- To determine the unique number of visits for each customer, utilize **COUNT(DISTINCT order_date)**.
+- It's important to **apply the DISTINCT** keyword while calculating the visit count to avoid duplicate counting of days. For instance, if Customer A visited the restaurant twice on '2021–01–07', counting **without DISTINCT** would result in 2 days instead of the accurate count of 1 day.
 ### Result:
 <img width="352" alt="Screenshot_18" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/8a34e1b0-6c62-4d09-b3d4-52b59b891604">
 
@@ -45,7 +45,7 @@ It's important to **apply the DISTINCT** keyword while calculating the visit cou
 <img width="394" alt="Screenshot_9" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/6939aed7-a5c7-4339-ac0e-ece3226e91b6">
 
 ### Steps:
-- Create a Common Table Expression (CTE) named ordered_sales_cte. Within the CTE, create a new column rank and calculate the row number using **DENSE_RANK()** window function. The **PARTITION BY** clause divides the data by customer_id, and the **ORDER BY** clause orders the rows within each partition by order_date.
+- Create a Common Table Expression (CTE) named ordered_sales. Within the CTE, create a new column rank and calculate the row number using **DENSE_RANK()** window function. The **PARTITION BY** clause divides the data by customer_id, and the **ORDER BY** clause orders the rows within each partition by order_date.
 - In the outer query, select the appropriate columns and apply a filter in the **WHERE** clause to retrieve only the rows where the rank column equals 1, which represents the first row within each customer_id partition.
 - Use the GROUP BY clause to group the result by customer_id and product_name.
 
@@ -71,7 +71,7 @@ Most purchased item on the menu is ramen which is 8 times. Yummy!
 <img width="677" alt="Screenshot_11" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/1892e855-80dd-42d5-8ac7-c6780a89b3b6">
 
 ### Steps:
-- Create a CTE named fav_item_cte and within the CTE, join the menu table and sales table using the product_id column.
+- Create a CTE named cte_1 and within the CTE, join the menu table and sales table using the product_id column.
 - Group results by sales.customer_id and menu.product_name and calculate the count of menu.product_id occurrences for each group.
 - Utilize the **DENSE_RANK()** window function to calculate the ranking of each sales.customer_id partition based on the count of orders **COUNT(sales.customer_id)** in descending order.
 - In the outer query, select the appropriate columns and apply a filter in the **WHERE** clause to retrieve only the rows where the rank column equals 1, representing the rows with the highest order count for each customer.
@@ -85,9 +85,9 @@ Most purchased item on the menu is ramen which is 8 times. Yummy!
 <img width="581" alt="Screenshot_12" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/e4904f5d-679c-4847-887f-45be555e6ad9">
 
 ### Steps:
-- Create a CTE named joined_as_member and within the CTE, select the appropriate columns and calculate the row number using the **ROW_NUMBER()** window function. The **PARTITION BY** clause divides the data by members.customer_id and the **ORDER BY** clause orders the rows within each members.customer_id partition by sales.order_date.
-- Join tables dannys_diner.members and dannys_diner.sales on customer_id column. Additionally, apply a condition to only include sales that occurred after the member's join_date (sales.order_date > members.join_date).
-- In the outer query, join the joined_as_member CTE with the dannys_diner.menu on the product_id column.
+- Create a CTE named cte_1 and within the CTE, select the appropriate columns and calculate the row number using the **ROW_NUMBER()** window function. The **PARTITION BY** clause divides the data by members.customer_id and the **ORDER BY** clause orders the rows within each members.customer_id partition by sales.order_date.
+- Join tables members and sales on customer_id column. Additionally, apply a condition to only include sales that occurred after the member's join_date (sales.order_date > members.join_date).
+- In the outer query, join the cte_1 with the menu on the product_id column.
 - In the **WHERE** clause, filter to retrieve only the rows where the row_num column equals 1, representing the first row within each customer_id partition.
 Order result by customer_id in ascending order.
 ### Result:
@@ -100,10 +100,10 @@ Order result by customer_id in ascending order.
 <img width="598" alt="Screenshot_13" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/edead32a-9828-4e8b-a839-0e0d41b4a9b1">
 
 ### Steps:
-- Create a CTE called purchased_prior_member.
+- Create a CTE called cte_1.
 - In the CTE, select the appropriate columns and calculate the rank using the **ROW_NUMBER()** window function. The rank is determined based on the order dates of the sales in descending order within each customer's group.
-- Join dannys_diner.members table with dannys_diner.sales table based on the customer_id column, only including sales that occurred before the customer joined as a member (sales.order_date < members.join_date).
-- Join purchased_prior_member CTE with dannys_diner.menu table based on product_id column.
+- Join members table with sales table based on the customer_id column, only including sales that occurred before the customer joined as a member (sales.order_date < members.join_date).
+- Join cte_1 with menu table based on product_id column.
 - Filter the result set to include only the rows where the rank is 1, representing the earliest purchase made by each customer before they became a member.
 - Sort the result by customer_id in ascending order.
 ### Result:
@@ -115,9 +115,9 @@ Both customers' last order before becoming members are sushi.
 <img width="427" alt="Screenshot_14" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/6a001e72-ebef-4ed6-a401-5422018a4ed6">
 
 ### Steps:
-- Select the columns sales.customer_id and calculate the count of sales.product_id as total_items for each customer and the sum of menu.price as total_sales. \
-- From dannys_diner.sales table, join dannys_diner.members table on customer_id column, ensuring that sales.order_date is earlier than members.join_date (sales.order_date < members.join_date).
-- Then, join dannys_diner.menu table to dannys_diner.sales table on product_id column.
+- Select the columns sales.customer_id and calculate the count of sales.product_id as total_items for each customer and the sum of menu.price as total_sales. 
+- From sales table, join members table on customer_id column, ensuring that sales.order_date is earlier than members.join_date (sales.order_date < members.join_date).
+- Then, join menu table to sales table on product_id column.
 - Group the results by sales.customer_id.
 - Order the result by sales.customer_id in ascending order.
 ### Result:
@@ -149,23 +149,20 @@ Let's break down the question to understand the point calculation for each custo
 <img width="769" alt="Screenshot_17" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/1888b3f3-75a6-4e12-9dfa-194827926ac3">
 
 ### Assumptions:
-On Day -X to Day 1 (the day a customer becomes a member), each $1 spent earns 10 points. However, for sushi, each $1 spent earns 20 points.
-From Day 1 to Day 7 (the first week of membership), each $1 spent for any items earns 20 points.
-From Day 8 to the last day of January 2021, each $1 spent earns 10 points. However, sushi continues to earn double the points at 20 points per $1 spent.
+- On Day X to Day 1 (the day a customer becomes a member), each $1 spent earns 10 points. However, for sushi, each $1 spent earns 20 points.
+- From Day 1 to Day 7 (the first week of membership), each $1 spent for any items earns 20 points.
+- From Day 8 to the last day of January 2021, each $1 spent earns 10 points. However, sushi continues to earn double the points at 20 points per $1 spent.
 ### Steps:
 - Create a CTE called dates_cte.
 - In dates_cte, calculate the valid_date by adding 6 days to the join_date and determine the last_date of the month by subtracting 1 day from the last day of January 2021.
-- From dannys_diner.sales table, join dates_cte on customer_id column, ensuring that the order_date of the sale is after the join_date (dates.join_date <= sales.order_date) and not later than the last_date (sales.order_date <= dates.last_date).
-- Then, join dannys_diner.menu table based on the product_id column.
+- From sales table, join dates_cte on customer_id column, ensuring that the order_date of the sale is after the join_date (dates.join_date <= sales.order_date) and not later than the last_date (sales.order_date <= dates.last_date).
+- Then, join menu table based on the product_id column.
 - In the outer query, calculate the points by using a CASE statement to determine the points based on our assumptions above.
 - If the product_name is 'sushi', multiply the price by 2 and then by 10. For orders placed between join_date and valid_date, also multiply the price by 2 and then by 10.
 For all other products, multiply the price by 10.
 - Calculate the sum of points for each customer.
 ### Result:
 <img width="311" alt="Screenshot_25" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/1da3c17d-d31d-43e7-ad93-4656ab9fab3f">
-
-
-  
 
 ### Result:
 - Total points for Customer A is 1,020.

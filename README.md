@@ -6,6 +6,9 @@ Using SQL to discover customer behaviors and their visiting patterns
 ## Business Task
 Danny wants to use the data to answer a few simple questions about his customers, especially about their visiting patterns, how much money they’ve spent and also which menu items are their favourite.
 
+Please note that all the information regarding the case study has been sourced from the following link: 
+https://8weeksqlchallenge.com/case-study-1/
+
 ## Entity Relationship Diagram
 <img width="638" alt="Screenshot_4" src="https://github.com/NuongLe123/Python_RFM_analysis/assets/168357450/b34f401f-e5e6-4c84-ad7b-433636e985fc">
 
